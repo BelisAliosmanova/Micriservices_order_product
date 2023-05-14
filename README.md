@@ -4,6 +4,7 @@ client as a communication mechanism between services. The system should</br>
 consist of two services: a "Product Service" and an "Order Service." The Product</br>
 Service is responsible for managing products, while the Order Service handles</br>
 order processing.</br>
+### But I will try with Eureka Server :)
 Tasks:</br>
 1. Set up a new Spring Boot project for each service (Product Service and</br>
 Order Service).</br>
