@@ -5,6 +5,7 @@ import com.OrderMicroserviceApp.OrderMicroserviceApp.model.Order;
 import com.OrderMicroserviceApp.OrderMicroserviceApp.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -20,8 +21,8 @@ public class OrderService {
     private final ModelMapper modelMapper;
 
     public List<OrderDTO> getAllOrders() {
-        List<Order> orderDTOS = orderRepository.findAll();
-        return orderDTOS.stream().map(orders -> modelMapper.map(orders, OrderDTO.class)).collect(Collectors.toList());
+        List<Order> orders = orderRepository.findAll();
+        return orders.stream().map(order -> modelMapper.map(order, OrderDTO.class)).collect(Collectors.toList());
     }
 
     public Order addOrder(Order order, UriComponentsBuilder uriComponentsBuilder) {
@@ -37,16 +38,12 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
-    public boolean updateOrder(Long orderId, OrderDTO orderDTO) {
-        Optional<Order> optionalOrder = orderRepository.findById(orderId);
-        if (optionalOrder.isPresent()) {
-            Order existingOrder = optionalOrder.get();
-            existingOrder.setOrderDateTime(orderDTO.getOrderDateTime());
-            existingOrder.setCustomerName(orderDTO.getCustomerName());
-            existingOrder.setProduct(orderDTO.getProduct());
-            orderRepository.save(existingOrder);
-            return true;
-        }
-        return false;
+    public OrderDTO updateOrder(Long id, Order order) throws ChangeSetPersister.NotFoundException {
+        Order orderUpdate = orderRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
+        orderUpdate.setId(order.getId());
+        orderUpdate.setOrderDateTime(order.getOrderDateTime());
+        orderUpdate.setCustomerName(order.getCustomerName());
+        orderRepository.save(orderUpdate);
+        return modelMapper.map(orderUpdate, OrderDTO.class);
     }
 }

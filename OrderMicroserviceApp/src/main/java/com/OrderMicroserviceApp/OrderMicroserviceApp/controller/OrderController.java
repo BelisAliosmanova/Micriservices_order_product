@@ -4,6 +4,7 @@ import com.OrderMicroserviceApp.OrderMicroserviceApp.dto.OrderDTO;
 import com.OrderMicroserviceApp.OrderMicroserviceApp.model.Order;
 import com.OrderMicroserviceApp.OrderMicroserviceApp.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,14 +44,7 @@ public class OrderController {
     }
 
     @PutMapping("/updateOrder{id}")
-    public ResponseEntity<String> updateOrder(@PathVariable("orderId") Long orderId,
-                                              @RequestBody OrderDTO orderDTO) {
-        boolean updated = orderService.updateOrder(orderId, orderDTO);
-        if (updated) {
-            return ResponseEntity.ok("Order updated!");
-        } else {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Failed to update the order");
-        }
+    public ResponseEntity<OrderDTO> updateOrder(Long id, @RequestBody Order order) throws ChangeSetPersister.NotFoundException {
+        return ResponseEntity.ok(orderService.updateOrder(id, order));
     }
 }

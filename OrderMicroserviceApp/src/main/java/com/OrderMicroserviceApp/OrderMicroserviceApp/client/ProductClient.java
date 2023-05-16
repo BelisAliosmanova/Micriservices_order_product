@@ -12,6 +12,4 @@ import java.util.List;
 public interface ProductClient {
     @GetMapping("/product/{id}")
     public ResponseEntity<ProductDTO> getProductById(@PathVariable("id")Long id);
-    @GetMapping("/products/{id}")
-    public ResponseEntity<List<ProductDTO>> getProductsByOrderId(@PathVariable("id")Long id);
 }
