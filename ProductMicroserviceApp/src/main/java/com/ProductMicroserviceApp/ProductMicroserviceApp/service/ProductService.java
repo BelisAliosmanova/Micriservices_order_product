@@ -24,7 +24,7 @@ public class ProductService {
         return products.stream().map(product -> modelMapper.map(product, ProductDTO.class)).collect(Collectors.toList());
     }
 
-    public Product addProduct(Product product, UriComponentsBuilder uriComponentsBuilder) {
+    public Product addProduct(Product product) {
         return productRepository.save(product);
     }
 

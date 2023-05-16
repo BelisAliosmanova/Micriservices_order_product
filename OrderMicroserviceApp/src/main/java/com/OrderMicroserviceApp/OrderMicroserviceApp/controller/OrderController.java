@@ -28,7 +28,7 @@ public class OrderController {
 
     @PostMapping("/add")
     public ResponseEntity<Order> addOrder(@RequestBody Order order, UriComponentsBuilder uriComponentsBuilder) {
-        URI location = uriComponentsBuilder.path("/orders/{id}").buildAndExpand(orderService.addOrder(order, uriComponentsBuilder).getId()).toUri();
+        URI location = uriComponentsBuilder.path("/orders/{id}").buildAndExpand(orderService.addOrder(order).getId()).toUri();
         return ResponseEntity.created(location).build();
     }
 

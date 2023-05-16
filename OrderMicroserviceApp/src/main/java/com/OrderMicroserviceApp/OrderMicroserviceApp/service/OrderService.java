@@ -25,7 +25,7 @@ public class OrderService {
         return orders.stream().map(order -> modelMapper.map(order, OrderDTO.class)).collect(Collectors.toList());
     }
 
-    public Order addOrder(Order order, UriComponentsBuilder uriComponentsBuilder) {
+    public Order addOrder(Order order) {
         return orderRepository.save(order);
     }
 

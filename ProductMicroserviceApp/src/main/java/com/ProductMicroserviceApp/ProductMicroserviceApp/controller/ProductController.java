@@ -28,7 +28,7 @@ public class ProductController {
 
     @PostMapping("/add")
     public ResponseEntity<Product> addProduct(@RequestBody Product product, UriComponentsBuilder uriComponentsBuilder) {
-        URI location = uriComponentsBuilder.path("/products/{id}").buildAndExpand(productService.addProduct(product, uriComponentsBuilder).getId()).toUri();
+        URI location = uriComponentsBuilder.path("/products/{id}").buildAndExpand(productService.addProduct(product).getId()).toUri();
         return ResponseEntity.created(location).build();
     }
 
